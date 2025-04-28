@@ -2,7 +2,7 @@ import * as amplitude from "@amplitude/analytics-browser";
 
 const AMPLITUDE_API_KEY = import.meta.env.VITE_AMPLITUDE_API_KEY;
 
-const isDevelopment = import.meta.env.MODE === "development"; // Detect if local/dev
+const isDevelopment = import.meta.env.MODE === "development";
 
 export const initAmplitude = () => {
   if (!AMPLITUDE_API_KEY) {
@@ -14,11 +14,11 @@ export const initAmplitude = () => {
     defaultTracking: true,
   });
 
-  if (isDevelopment) {
-    console.log("Amplitude initialized in DEVELOPMENT mode.");
-  } else {
-    console.log("Amplitude initialized in PRODUCTION mode.");
-  }
+  console.log(
+    `Amplitude initialized in ${
+      isDevelopment ? "DEVELOPMENT" : "PRODUCTION"
+    } mode with key: ${AMPLITUDE_API_KEY}`
+  );
 };
 
 export const logEvent = (eventName: string, eventProperties?: object) => {
@@ -28,8 +28,8 @@ export const logEvent = (eventName: string, eventProperties?: object) => {
   }
 
   const properties = {
-    environment: isDevelopment ? "development" : "production", // Always attach environment
-    ...eventProperties, // Merge custom properties
+    environment: isDevelopment ? "development" : "production",
+    ...eventProperties,
   };
 
   if (isDevelopment) {
